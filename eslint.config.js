@@ -41,9 +41,18 @@ export default defineConfig([
         tsconfigRootDir: __dirname,
       },
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        },
+      },
+    },
     rules: {
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+ / Vite
       'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
+      'react/require-default-props': 'off', // TypeScript handles optional values natively
+      'react/jsx-props-no-spreading': 'off', // Allowed for generic custom UI wrapper components
       'import/extensions': [
         'error',
         'ignorePackages',
