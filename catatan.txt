@@ -1,0 +1,40 @@
+Keperluan Submission Aplikasi Forum Diskusi (Dicoding)
+📋 1. Fungsionalitas Utama
+
+• Otentikasi: Form Register & Login.
+
+• Protected Actions: Berinteraksi (buat thread/komentar) wajib login. Melihat thread bebas.
+
+• Daftar Thread: Menampilkan judul, potongan body, waktu, jumlah komentar, nama & avatar pembuat.
+
+• Detail Thread & Komentar: Menampilkan detail lengkap beserta daftar komentar (konten, waktu, info pembuat).
+
+• Aksi: Form membuat thread dan membuat komentar baru.
+
+• Loading Indicator: Menampilkan loading bar/indicator saat memuat data API.
+
+🛠️ 2. Standar Kode & Kualitas
+
+• Menggunakan konfigurasi ESLint & bebas error.
+
+• Mengikuti salah satu Code Convention (e.g., AirBnB/Dicoding).
+
+• Menggunakan React Strict Mode.
+
+🏗️ 3. Arsitektur Aplikasi
+
+• State global (data API) wajib disimpan di Redux Store.
+
+• Tidak ada pemanggilan REST API langsung di dalam `useEffect`/lifecycle komponen (wajib via Redux Thunk).
+
+• Pemisahan folder UI (`components`/`pages`) dan State (`states`/`redux`).
+
+• Komponen bersifat modular & reusable.
+
+🚀 4. Fitur Unggul (Bonus)
+
+• Fitur Votes: Tombol upvote/downvote + indikasi visual + jumlah vote + Optimistic Update.
+
+• Halaman Leaderboard: Menampilkan nama, avatar, dan skor pengguna tertinggi.
+
+• Filter Kategori: Filter thread berdasarkan kategori secara lokal di Front-End.
