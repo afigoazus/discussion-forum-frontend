@@ -4,6 +4,8 @@ import reactLogo from './assets/react.svg';
 import viteLogo from './assets/vite.svg';
 import heroImg from './assets/hero.png';
 import './App.css';
+import LoginPage from './features/auth/pages/LoginPage';
+import RegisterPage from './features/auth/pages/RegisterPage';
 
 function MainApp() {
   const [count, setCount] = useState(0);
@@ -132,6 +134,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainApp />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }
