@@ -1,5 +1,5 @@
 import type {
-  Login, LoginUser, RegisterUser, User,
+  LoginUser, RegisterUser, User,
 } from '../types/user.types';
 
 const api = () => {
