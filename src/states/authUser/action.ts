@@ -6,7 +6,7 @@ import apiService from '../../utils/api';
 
 const api = apiService();
 
-export function setAuthUserActionCreator(authUser: User) {
+export function setAuthUserActionCreator(authUser: User | null) {
   return {
     type: REDUX_ACTION_TYPE.SET_AUTH_USER,
     payload: {
@@ -47,7 +47,7 @@ export function asyncSetAuthUser({ email, password }: LoginUser) {
   };
 }
 
-export function asynUnsetAuthUser() {
+export function asyncUnsetAuthUser() {
   return (dispatch: AppDispatch) => {
     dispatch(showLoading());
     dispatch(unsetAuthUserActionCreator());

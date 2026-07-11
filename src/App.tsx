@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg';
 import viteLogo from './assets/vite.svg';
@@ -6,9 +6,43 @@ import heroImg from './assets/hero.png';
 import './App.css';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
+import { useAppDispatch, useAppSelector } from './states/hooks';
+import { asyncPreloadProcess } from './states/isPreload/action';
+import { asyncUnsetAuthUser } from './states/authUser/action';
+import Loading from './components/common/Loading';
 
-function MainApp() {
+function App() {
   const [count, setCount] = useState(0);
+
+  const { authUser = null, isPreload = false } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(asyncPreloadProcess());
+  }, [dispatch]);
+
+  const onLogout = () => {
+    dispatch(asyncUnsetAuthUser());
+  };
+
+  if (isPreload) {
+    return null;
+  }
+
+  if (authUser === null) {
+    return (
+      <>
+        <Loading />
+        <main>
+          <Routes>
+            <Route path="/*" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
@@ -21,24 +55,20 @@ function MainApp() {
         <div>
           <h1>Get started</h1>
           <p>
-            Edit
-            {' '}
-            <code>src/App.tsx</code>
-            {' '}
-            and save to test
-            {' '}
-            <code>HMR</code>
+            Welcome, <strong>{authUser.name}</strong>!
+          </p>
+          <p>
+            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((c) => c + 1)}
-        >
-          Count is
-          {' '}
-          {count}
-        </button>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <button type="button" className="counter" onClick={() => setCount((c) => c + 1)}>
+            Count is {count}
+          </button>
+          <button type="button" className="counter" onClick={onLogout} style={{ backgroundColor: '#ef4444' }}>
+            Logout
+          </button>
+        </div>
       </section>
 
       <div className="ticks" />
@@ -74,11 +104,7 @@ function MainApp() {
           <ul>
             <li>
               <a href="https://github.com/vitejs/vite" target="_blank" rel="noreferrer">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#github-icon" />
                 </svg>
                 GitHub
@@ -86,11 +112,7 @@ function MainApp() {
             </li>
             <li>
               <a href="https://chat.vite.dev/" target="_blank" rel="noreferrer">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#discord-icon" />
                 </svg>
                 Discord
@@ -98,11 +120,7 @@ function MainApp() {
             </li>
             <li>
               <a href="https://x.com/vite_js" target="_blank" rel="noreferrer">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#x-icon" />
                 </svg>
                 X.com
@@ -110,11 +128,7 @@ function MainApp() {
             </li>
             <li>
               <a href="https://bsky.app/profile/vite.dev" target="_blank" rel="noreferrer">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
+                <svg className="button-icon" role="presentation" aria-hidden="true">
                   <use href="/icons.svg#bluesky-icon" />
                 </svg>
                 Bluesky
@@ -127,16 +141,6 @@ function MainApp() {
       <div className="ticks" />
       <section id="spacer" />
     </>
-  );
-}
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<MainApp />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-    </Routes>
   );
 }
 

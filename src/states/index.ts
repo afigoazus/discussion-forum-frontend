@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authUserReducer from './authUser/reducer';
 import usersReducer from './user/reducer';
+import isPreloadReducer from './isPreload/reducer';
 
 export const store = configureStore({
   reducer: {
-    autUser: authUserReducer,
+    authUser: authUserReducer,
     users: usersReducer,
+    isPreload: isPreloadReducer,
   },
 });
 
