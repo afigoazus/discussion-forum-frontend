@@ -43,3 +43,13 @@ export interface createThredProps {
   text: string;
   replyTo: string;
 }
+
+export interface ToggleUpvoteThreadProps {
+  threadId: string;
+  userId: string;
+}
+
+export interface AddThreadProps {
+  text: string;
+  replyTo: string;
+}
