@@ -1,6 +1,5 @@
-import type {
-  LoginUser, RegisterUser, User,
-} from '../types/user.types';
+import type { createThredProps, DetailThread, Thread } from '../types/thread.types';
+import type { LoginUser, RegisterUser, User } from '../types/user.types';
 
 const api = () => {
   const BASE_URL = import.meta.env.VITE_PUBLIC_API;
@@ -113,6 +112,69 @@ const api = () => {
     return users;
   }
 
+  async function getAllThread(): Promise<Thread[]> {
+    const response = await fetch(`${BASE_URL}/threads`);
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { threads },
+    } = responseJson;
+
+    return threads;
+  }
+
+  async function getThreadDetail(id: string): Promise<DetailThread> {
+    const response = await fetch(`${BASE_URL}/threads/${id}`);
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { detailThread },
+    } = responseJson;
+
+    return detailThread;
+  }
+
+  async function createThread({ text, replyTo = '' }: createThredProps): Promise<Thread> {
+    const response = await fetchWithAuth(`${BASE_URL}/threads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text,
+        replyTo,
+      }),
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { thread },
+    } = responseJson;
+
+    return thread;
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -120,6 +182,9 @@ const api = () => {
     login,
     getOwnProfile,
     getAllUsers,
+    getAllThread,
+    getThreadDetail,
+    createThread,
   };
 };
 
