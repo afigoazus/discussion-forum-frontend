@@ -1,12 +1,23 @@
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
 import type { Thread } from '../../../types/thread.types';
 import type { User } from '../../../types/user.types';
+import { useAppSelector } from '../../../states/hooks';
 
 interface ThreadItemProps {
   thread: Thread;
   user: User | null;
+  onUpvoteThread: (threadId: string) => void;
+  onDownVoteThread: (threadId: string) => void;
 }
 
-function ThreadItem({ thread, user }: ThreadItemProps) {
+function ThreadItem({ thread, user, onUpvoteThread, onDownVoteThread }: ThreadItemProps) {
+  const authUser = useAppSelector((state) => state.authUser);
+  
+  const isUpvoted = authUser ? thread.upVotesBy.includes(authUser.id) : false;
+  const isDownvoted = authUser ? thread.downVotesBy.includes(authUser.id) : false;
+  const upvotesCount = thread.upVotesBy.length;
+  const downvotesCount = thread.downVotesBy.length;
+
   const formattedDate = new Date(thread.createdAt).toLocaleDateString('id-ID', {
     year: 'numeric',
     month: 'long',
@@ -14,6 +25,14 @@ function ThreadItem({ thread, user }: ThreadItemProps) {
     hour: '2-digit',
     minute: '2-digit',
   });
+
+  const handleUpvote = () => {
+    onUpvoteThread(thread.id);
+  };
+
+  const handleDownvote = () => {
+    onDownVoteThread(thread.id);
+  };
 
   return (
     <article className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900">
@@ -56,41 +75,33 @@ function ThreadItem({ thread, user }: ThreadItemProps) {
           </p>
 
           <div className="mt-4 flex items-center gap-6">
-            <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2m0 10V10"
-                />
-              </svg>
-              <span>{thread.upVotesBy.length}</span>
-            </div>
+            <button
+              type="button"
+              onClick={handleUpvote}
+              className={`flex items-center gap-1.5 text-xs transition-colors hover:text-blue-500 focus:outline-none ${
+                isUpvoted ? 'text-blue-600 font-semibold' : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              <ThumbsUp
+                className="w-4 h-4 text-gray-400 dark:text-gray-500"
+                fill={isUpvoted ? '#3b82f6' : 'none'}
+              />
+              <span>{upvotesCount}</span>
+            </button>
 
-            <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m0-10v10"
-                />
-              </svg>
-              <span>{thread.downVotesBy.length}</span>
-            </div>
+            <button
+              type="button"
+              onClick={handleDownvote}
+              className={`flex items-center gap-1.5 text-xs transition-colors hover:text-red-500 focus:outline-none ${
+                isDownvoted ? 'text-red-600 font-semibold' : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              <ThumbsDown
+                className="w-4 h-4 text-gray-400 dark:text-gray-500"
+                fill={isDownvoted ? '#ef4444' : 'none'}
+              />
+              <span>{downvotesCount}</span>
+            </button>
 
             <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
               <svg

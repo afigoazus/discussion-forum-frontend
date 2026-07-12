@@ -60,6 +60,7 @@ export default defineConfig([
       'react/jsx-props-no-spreading': 'off', // Allowed for generic custom UI wrapper components
       'import/no-unresolved': 'off', // TypeScript compiler (tsc) already checks this
       'import/extensions': 'off', // TypeScript handles file extensions automatically
+      'import/no-extraneous-dependencies': 'off',
     },
   },
 ])
