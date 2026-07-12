@@ -291,6 +291,26 @@ const api = () => {
     }
   }
 
+  async function createComment(threadId: string, text: string) {
+    const response = await fetchWithAuth(`${BASE_URL}/threads/${threadId}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: text,
+      }),
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -307,6 +327,7 @@ const api = () => {
     toggleUpvoteComment,
     toggleDownvoteComment,
     toggleNeutralizevoteComment,
+    createComment,
   };
 };
 
