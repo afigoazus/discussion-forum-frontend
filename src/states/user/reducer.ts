@@ -8,7 +8,7 @@ export default function usersReducer(
 ) {
   switch (action.type) {
     case REDUX_ACTION_TYPE.RECEIVE_USERS:
-      return action.payload?.users;
+      return action.payload?.users ?? users;
     default:
       return users;
   }

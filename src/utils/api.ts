@@ -1,4 +1,4 @@
-import type { createThredProps, DetailThread, Thread } from '../types/thread.types';
+import type { CreateThread, DetailThread, Thread } from '../types/thread.types';
 import type { LoginUser, RegisterUser, User } from '../types/user.types';
 
 const api = () => {
@@ -148,15 +148,16 @@ const api = () => {
     return detailThread;
   }
 
-  async function createThread({ text, replyTo = '' }: createThredProps): Promise<Thread> {
+  async function createThread({ title, body, category = 'general' }: CreateThread): Promise<Thread> {
     const response = await fetchWithAuth(`${BASE_URL}/threads`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        text,
-        replyTo,
+        title,
+        body,
+        category,
       }),
     });
 
