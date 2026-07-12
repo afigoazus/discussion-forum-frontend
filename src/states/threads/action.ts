@@ -1,6 +1,6 @@
 import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
-import type { AppDispatch } from '..';
-import type { CreateThread, Thread, ToggleUpvoteThreadProps } from '../../types/thread.types';
+import type { AppDispatch, RootState } from '..';
+import type { CreateThread, Thread, ToggleVoteThreadProps } from '../../types/thread.types';
 import type { ActionWithPayload } from '../../types/action.types';
 import REDUX_ACTION_TYPE from '../actionTypes';
 import apiService from '../../utils/api';
@@ -28,9 +28,35 @@ export function addThreadActionCreator(thread: Thread): ActionWithPayload<{ thre
 export function toggleUpvoteThreadActionCreator({
   threadId,
   userId,
-}: ToggleUpvoteThreadProps): ActionWithPayload<{ threadId: string; userId: string }> {
+}: ToggleVoteThreadProps): ActionWithPayload<ToggleVoteThreadProps> {
   return {
     type: REDUX_ACTION_TYPE.TOGGLE_UPVOTE_THREAD,
+    payload: {
+      threadId,
+      userId,
+    },
+  };
+}
+
+export function toggleDownVoteThreadActionCreator({
+  threadId,
+  userId,
+}: ToggleVoteThreadProps): ActionWithPayload<ToggleVoteThreadProps> {
+  return {
+    type: REDUX_ACTION_TYPE.TOGGLE_DOWNVOTE_THREAD,
+    payload: {
+      threadId,
+      userId,
+    },
+  };
+}
+
+export function toggleNeutralVoteThreadActionCreator({
+  threadId,
+  userId,
+}: ToggleVoteThreadProps): ActionWithPayload<ToggleVoteThreadProps> {
+  return {
+    type: REDUX_ACTION_TYPE.TOGGLE_NEUTRALVOTE_THREAD,
     payload: {
       threadId,
       userId,
@@ -58,19 +84,74 @@ export function asyncAddThread({ title, body, category }: CreateThread) {
   };
 }
 
-// export function asyncToggleUpvoteThread(threadId: string) {
-//   return async (dispatch: AppDispatch, getState: () => RootState) => {
-//     dispatch(showLoading());
-//     const state = getState();
+export function asyncToggleUpvoteThread(threadId: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(showLoading());
+    const state = getState();
 
-//     const { authUser } = state;
+    const { authUser } = state;
 
-//     dispatch(toggleUpvoteThreadActionCreator({ threadId, userId: authUser?.id || '' }));
+    dispatch(toggleUpvoteThreadActionCreator({ threadId, userId: authUser?.id || '' }));
 
-//     try {
-//         await
-//     } catch (error) {
+    try {
+      await api.toggleUpvoteThread(threadId);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('Terjadi kesalahan yang tidak diketahui');
+      }
+      throw error;
+    }
 
-//     }
-//   };
-// }
+    dispatch(hideLoading());
+  };
+}
+
+export function asyncToggleDownvoteThread(threadId: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(showLoading());
+    const state = getState();
+
+    const { authUser } = state;
+
+    dispatch(toggleDownVoteThreadActionCreator({ threadId, userId: authUser?.id || '' }));
+
+    try {
+      await api.toggleDownvoteThread(threadId);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('Terjadi kesalahan yang tidak diketahui');
+      }
+      throw error;
+    }
+
+    dispatch(hideLoading());
+  };
+}
+
+export function asyncToggleNeutralvoteThread(threadId: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(showLoading());
+    const state = getState();
+
+    const { authUser } = state;
+
+    dispatch(toggleNeutralVoteThreadActionCreator({ threadId, userId: authUser?.id || '' }));
+
+    try {
+      await api.toggleNeutralizevoteThread(threadId);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('Terjadi kesalahan yang tidak diketahui');
+      }
+      throw error;
+    }
+
+    dispatch(hideLoading());
+  };
+}
