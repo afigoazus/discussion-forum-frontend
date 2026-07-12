@@ -1,20 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
-import heroImg from './assets/hero.png';
 import './App.css';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
 import { useAppDispatch, useAppSelector } from './states/hooks';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import { asyncUnsetAuthUser } from './states/authUser/action';
+import { asyncAddThread } from './states/threads/action';
+import ThreadList from './features/threads/components/ThreadList';
+import ThreadInput from './features/threads/components/ThreadInput';
 import Loading from './components/common/Loading';
+import type { CreateThread } from './types/thread.types';
+import asyncPopulateUsersAndThreads from './states/shared/action';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const { authUser = null, isPreload = false } = useAppSelector((state) => state);
+  const {
+    authUser = null,
+    isPreload = false,
+    threads = [],
+    users = [],
+  } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
@@ -22,8 +27,18 @@ function App() {
     dispatch(asyncPreloadProcess());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (authUser) {
+      dispatch(asyncPopulateUsersAndThreads());
+    }
+  }, [dispatch, authUser]);
+
   const onLogout = () => {
     dispatch(asyncUnsetAuthUser());
+  };
+
+  const onAddThread = (newThread: CreateThread) => {
+    dispatch(asyncAddThread(newThread));
   };
 
   if (isPreload) {
@@ -46,100 +61,69 @@ function App() {
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Welcome, <strong>{authUser.name}</strong>!
-          </p>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-          <button type="button" className="counter" onClick={() => setCount((c) => c + 1)}>
-            Count is {count}
-          </button>
-          <button type="button" className="counter" onClick={onLogout} style={{ backgroundColor: '#ef4444' }}>
-            Logout
-          </button>
-        </div>
-      </section>
+      <Loading />
+      <header className="sticky top-0 z-40 w-full border-b border-gray-100 bg-white/80 backdrop-blur dark:border-gray-800 dark:bg-gray-950/80">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-bold text-purple-600 dark:text-purple-400">
+              DiscussionForum
+            </span>
+          </div>
 
-      <div className="ticks" />
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {authUser.avatar ? (
+                <img
+                  src={authUser.avatar}
+                  alt={authUser.name}
+                  className="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700"
+                />
+              ) : (
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 text-purple-700 font-bold dark:bg-purple-900/30 dark:text-purple-400 text-sm">
+                  {authUser.name.charAt(0)}
+                </div>
+              )}
+              <span className="hidden text-sm font-medium text-gray-700 dark:text-gray-300 sm:block">
+                {authUser.name}
+              </span>
+            </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon" />
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank" rel="noreferrer">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank" rel="noreferrer">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+            <button
+              type="button"
+              onClick={onLogout}
+              className="rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+            >
+              Logout
+            </button>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon" />
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank" rel="noreferrer">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#github-icon" />
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank" rel="noreferrer">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#discord-icon" />
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank" rel="noreferrer">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#x-icon" />
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank" rel="noreferrer">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#bluesky-icon" />
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </header>
 
-      <div className="ticks" />
-      <section id="spacer" />
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="md:col-span-2 space-y-6">
+            <ThreadInput addThread={onAddThread} />
+            <div className="flex items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-800">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Daftar Diskusi</h2>
+              <span className="rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                {threads.length}
+                Diskusi
+              </span>
+            </div>
+            <ThreadList threads={threads} users={users} />
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="font-bold text-gray-900 dark:text-white">Tentang Forum</h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Selamat datang di platform forum diskusi kami. Bagikan pemikiran, pertanyaan, atau
+                solusi menarik Anda dengan developer lainnya!
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
     </>
   );
 }

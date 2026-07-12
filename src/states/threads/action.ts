@@ -1,7 +1,7 @@
 import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
 import type { AppDispatch } from '..';
+import type { CreateThread, Thread, ToggleUpvoteThreadProps } from '../../types/thread.types';
 import type { ActionWithPayload } from '../../types/action.types';
-import type { AddThreadProps, Thread, ToggleUpvoteThreadProps } from '../../types/thread.types';
 import REDUX_ACTION_TYPE from '../actionTypes';
 import apiService from '../../utils/api';
 
@@ -38,12 +38,12 @@ export function toggleUpvoteThreadActionCreator({
   };
 }
 
-export function asyncAddThread({ text, replyTo = '' }: AddThreadProps) {
+export function asyncAddThread({ title, body, category }: CreateThread) {
   return async (dispatch: AppDispatch) => {
     dispatch(showLoading());
 
     try {
-      const thread = await api.createThread({ text, replyTo });
+      const thread = await api.createThread({ title, body, category });
       dispatch(addThreadActionCreator(thread));
     } catch (error) {
       if (error instanceof Error) {
