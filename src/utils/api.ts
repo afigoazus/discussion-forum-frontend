@@ -148,7 +148,11 @@ const api = () => {
     return detailThread;
   }
 
-  async function createThread({ title, body, category = 'general' }: CreateThread): Promise<Thread> {
+  async function createThread({
+    title,
+    body,
+    category = 'general',
+  }: CreateThread): Promise<Thread> {
     const response = await fetchWithAuth(`${BASE_URL}/threads`, {
       method: 'POST',
       headers: {
@@ -176,6 +180,117 @@ const api = () => {
     return thread;
   }
 
+  async function toggleUpvoteThread(id: string) {
+    const response = await fetchWithAuth(`${BASE_URL}/threads/${id}/up-vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleDownvoteThread(id: string) {
+    const response = await fetchWithAuth(`${BASE_URL}/threads/${id}/down-vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleNeutralizevoteThread(id: string) {
+    const response = await fetchWithAuth(`${BASE_URL}/ threads/${id}/neutral-vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleUpvoteComment(threadId: string, commentId: string) {
+    const response = await fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/up-vote`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleDownvoteComment(threadId: string, commentId: string) {
+    const response = await fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/down-vote`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
+  async function toggleNeutralizevoteComment(threadId: string, commentId: string) {
+    const response = await fetchWithAuth(
+      `${BASE_URL}/threads/${threadId}/comments/${commentId}/neutral-vote`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -186,6 +301,12 @@ const api = () => {
     getAllThread,
     getThreadDetail,
     createThread,
+    toggleUpvoteThread,
+    toggleDownvoteThread,
+    toggleNeutralizevoteThread,
+    toggleUpvoteComment,
+    toggleDownvoteComment,
+    toggleNeutralizevoteComment,
   };
 };
 
