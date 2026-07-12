@@ -1,3 +1,4 @@
+import type { Leaderbords } from '../types/leaderbord.types';
 import type { CreateThread, DetailThread, Thread } from '../types/thread.types';
 import type { LoginUser, RegisterUser, User } from '../types/user.types';
 
@@ -311,6 +312,29 @@ const api = () => {
     }
   }
 
+  async function getLeaderbords(): Promise<Leaderbords[]> {
+    const response = await fetchWithAuth(`${BASE_URL}/leaderbords`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const responseJson = await response.json();
+
+    const { status, message } = responseJson;
+
+    if (status !== 'success') {
+      throw new Error(message);
+    }
+
+    const {
+      data: { leaderbords },
+    } = responseJson;
+
+    return leaderbords;
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -328,6 +352,7 @@ const api = () => {
     toggleDownvoteComment,
     toggleNeutralizevoteComment,
     createComment,
+    getLeaderbords,
   };
 };
 
