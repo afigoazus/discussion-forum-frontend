@@ -10,9 +10,11 @@ interface ThreadItemProps {
   onDownVoteThread: (threadId: string) => void;
 }
 
-function ThreadItem({ thread, user, onUpvoteThread, onDownVoteThread }: ThreadItemProps) {
+function ThreadItem({
+  thread, user, onUpvoteThread, onDownVoteThread,
+}: ThreadItemProps) {
   const authUser = useAppSelector((state) => state.authUser);
-  
+
   const isUpvoted = authUser ? thread.upVotesBy.includes(authUser.id) : false;
   const isDownvoted = authUser ? thread.downVotesBy.includes(authUser.id) : false;
   const upvotesCount = thread.upVotesBy.length;
@@ -62,7 +64,8 @@ function ThreadItem({ thread, user, onUpvoteThread, onDownVoteThread }: ThreadIt
 
           <div className="mt-1">
             <span className="inline-block rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-              #{thread.category}
+              #
+              {thread.category}
             </span>
           </div>
 
@@ -118,7 +121,11 @@ function ThreadItem({ thread, user, onUpvoteThread, onDownVoteThread }: ThreadIt
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 />
               </svg>
-              <span>{thread.totalComments} Komentar</span>
+              <span>
+                {thread.totalComments}
+                {' '}
+                Komentar
+              </span>
             </div>
           </div>
         </div>
