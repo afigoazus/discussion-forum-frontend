@@ -13,7 +13,7 @@ export default function ThreadInput({ addThread }: ThreadInputProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !body.trim()) return;
-    
+
     addThread({
       title,
       body,
@@ -31,7 +31,7 @@ export default function ThreadInput({ addThread }: ThreadInputProps) {
       className="space-y-4 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
     >
       <h3 className="text-lg font-bold text-gray-900 dark:text-white">Buat Diskusi Baru</h3>
-      
+
       <div>
         <label className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300">
           <span>Judul</span>

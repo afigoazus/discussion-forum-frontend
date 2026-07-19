@@ -1,4 +1,4 @@
-import type { Leaderbords } from '../types/leaderbord.types';
+import type { Leaderboards } from '../types/leaderboard.types';
 import type { CreateThread, DetailThread, Thread } from '../types/thread.types';
 import type { LoginUser, RegisterUser, User } from '../types/user.types';
 
@@ -312,7 +312,7 @@ const api = () => {
     }
   }
 
-  async function getLeaderbords(): Promise<Leaderbords[]> {
+  async function getLeaderboards(): Promise<Leaderboards[]> {
     const response = await fetchWithAuth(`${BASE_URL}/leaderbords`, {
       method: 'POST',
       headers: {
@@ -352,7 +352,7 @@ const api = () => {
     toggleDownvoteComment,
     toggleNeutralizevoteComment,
     createComment,
-    getLeaderbords,
+    getLeaderboards,
   };
 };
 

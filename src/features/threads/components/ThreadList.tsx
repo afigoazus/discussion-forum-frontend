@@ -9,7 +9,9 @@ interface ThreadListProps {
   onDownvoteThread: (threadId: string) => void;
 }
 
-function ThreadList({ threads, users, onUpvoteThread, onDownvoteThread }: ThreadListProps) {
+function ThreadList({
+  threads, users, onUpvoteThread, onDownvoteThread,
+}: ThreadListProps) {
   if (threads.length === 0) {
     return (
       <div className="text-center py-12 bg-white rounded-xl border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
@@ -18,9 +20,7 @@ function ThreadList({ threads, users, onUpvoteThread, onDownvoteThread }: Thread
     );
   }
 
-  const getUserById = (userId: string) => {
-    return users.find((user) => user.id === userId) || null;
-  };
+  const getUserById = (userId: string) => users.find((user) => user.id === userId) || null;
 
   return (
     <div className="space-y-4">

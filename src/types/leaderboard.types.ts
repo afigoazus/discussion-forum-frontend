@@ -1,6 +1,6 @@
 import type { User } from './user.types';
 
-export interface Leaderbords {
+export interface Leaderboards {
   user: User;
   score: number;
 }
