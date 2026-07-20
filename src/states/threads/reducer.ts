@@ -80,6 +80,7 @@ export function threadDetailReducer(
   action: ActionWithPayload<{
     threadDetail?: DetailThread | null;
     threadId?: string;
+    commentId?: string;
     userId?: string;
   }> = { type: '' },
 ) {
@@ -112,6 +113,50 @@ export function threadDetailReducer(
           ? threadDetail.downVotesBy.filter((id) => id !== userId)
           : [...threadDetail.downVotesBy, userId],
         upVotesBy: threadDetail.upVotesBy.filter((id) => id !== userId),
+      };
+    }
+    case REDUX_ACTION_TYPE.TOGGLE_UPVOTE_COMMENT: {
+      const { commentId, userId } = action.payload || {};
+      if (!threadDetail || !commentId || !userId) {
+        return threadDetail;
+      }
+      return {
+        ...threadDetail,
+        comments: threadDetail.comments.map((comment) => {
+          if (comment.id === commentId) {
+            const isAlreadyUpvoted = comment.upVotesBy.includes(userId);
+            return {
+              ...comment,
+              upVotesBy: isAlreadyUpvoted
+                ? comment.upVotesBy.filter((id) => id !== userId)
+                : [...comment.upVotesBy, userId],
+              downVotesBy: comment.downVotesBy.filter((id) => id !== userId),
+            };
+          }
+          return comment;
+        }),
+      };
+    }
+    case REDUX_ACTION_TYPE.TOGGLE_DOWNVOTE_COMMENT: {
+      const { commentId, userId } = action.payload || {};
+      if (!threadDetail || !commentId || !userId) {
+        return threadDetail;
+      }
+      return {
+        ...threadDetail,
+        comments: threadDetail.comments.map((comment) => {
+          if (comment.id === commentId) {
+            const isAlreadyDownvoted = comment.downVotesBy.includes(userId);
+            return {
+              ...comment,
+              downVotesBy: isAlreadyDownvoted
+                ? comment.downVotesBy.filter((id) => id !== userId)
+                : [...comment.downVotesBy, userId],
+              upVotesBy: comment.upVotesBy.filter((id) => id !== userId),
+            };
+          }
+          return comment;
+        }),
       };
     }
     default:
