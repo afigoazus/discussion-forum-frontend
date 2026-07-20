@@ -1,6 +1,11 @@
 import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
 import type { AppDispatch, RootState } from '..';
-import type { CreateThread, Thread, ToggleVoteThreadProps } from '../../types/thread.types';
+import type {
+  CreateThread,
+  DetailThread,
+  Thread,
+  ToggleVoteThreadProps,
+} from '../../types/thread.types';
 import type { ActionWithPayload } from '../../types/action.types';
 import REDUX_ACTION_TYPE from '../actionTypes';
 import apiService from '../../utils/api';
@@ -12,6 +17,17 @@ export function receiveThreadsAction(threads: Thread[]): ActionWithPayload<{ thr
     type: REDUX_ACTION_TYPE.RECEIVE_THREADS,
     payload: {
       threads,
+    },
+  };
+}
+
+export function receiveThreadsDetailAction(
+  threadDetail: DetailThread,
+): ActionWithPayload<{ threadDetail: DetailThread }> {
+  return {
+    type: REDUX_ACTION_TYPE.RECEIVE_THREADS_DETAIL,
+    payload: {
+      threadDetail,
     },
   };
 }
@@ -81,6 +97,25 @@ export function asyncAddThread({ title, body, category }: CreateThread) {
     }
 
     dispatch(hideLoading());
+  };
+}
+
+export function asyncReceiveDetailThread(id: string) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(showLoading());
+
+    try {
+      const threadDetail = await api.getThreadDetail(id);
+
+      dispatch(receiveThreadsDetailAction(threadDetail));
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert('Terjadi kesalahan yang tidak diketahui');
+      }
+      throw error;
+    }
   };
 }
 

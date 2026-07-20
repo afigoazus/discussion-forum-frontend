@@ -1,4 +1,5 @@
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { Thread } from '../../../types/thread.types';
 import type { User } from '../../../types/user.types';
 import { useAppSelector } from '../../../states/hooks';
@@ -70,7 +71,9 @@ function ThreadItem({
           </div>
 
           <h3 className="mt-3 text-lg font-bold text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400">
-            {thread.title}
+            <Link to={`/threads/${thread.id}`}>
+              {thread.title}
+            </Link>
           </h3>
 
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
