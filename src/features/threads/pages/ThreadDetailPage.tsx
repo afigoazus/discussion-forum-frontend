@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../states/hooks';
 import { asyncUnsetAuthUser } from '../../../states/authUser/action';
@@ -32,8 +32,13 @@ export default function ThreadDetailPage() {
     }
   }, [id, dispatch]);
 
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
   const onLogout = () => {
-    dispatch(asyncUnsetAuthUser());
+    setIsLoggingOut(true);
+    setTimeout(() => {
+      dispatch(asyncUnsetAuthUser());
+    }, 800);
   };
 
   const onUpvoteThread = (threadId: string) => {
@@ -101,15 +106,26 @@ export default function ThreadDetailPage() {
             <button
               type="button"
               onClick={onLogout}
-              className="rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+              disabled={isLoggingOut}
+              className="rounded-md border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 flex items-center gap-1.5"
             >
-              Logout
+              {isLoggingOut ? (
+                <>
+                  <svg className="animate-spin h-3.5 w-3.5 text-gray-700 dark:text-gray-200" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span>Keluar...</span>
+                </>
+              ) : (
+                'Logout'
+              )}
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+      <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6">
         <div className="space-y-6">
           {/* Bagian Detail Thread */}
           <ThreadDetail
@@ -124,7 +140,9 @@ export default function ThreadDetailPage() {
           {/* Daftar Komentar */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-              Komentar ({threadDetail.comments.length})
+              Komentar (
+              {threadDetail.comments.length}
+              )
             </h3>
             <CommentList
               threadId={threadDetail.id}

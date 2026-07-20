@@ -29,7 +29,9 @@ export default function LeaderboardPodium({ topThree }: LeaderboardPodiumProps) 
           </h3>
           <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1">2nd Place</span>
           <span className="text-purple-600 dark:text-purple-400 font-bold text-xs sm:text-sm mt-1">
-            {second.score} pts
+            {second.score}
+            {' '}
+            pts
           </span>
         </div>
       )}
@@ -52,7 +54,9 @@ export default function LeaderboardPodium({ topThree }: LeaderboardPodiumProps) 
             1st Place
           </span>
           <span className="text-purple-600 dark:text-purple-400 font-extrabold text-sm sm:text-base mt-1">
-            {first.score} pts
+            {first.score}
+            {' '}
+            pts
           </span>
         </div>
       )}
@@ -73,7 +77,9 @@ export default function LeaderboardPodium({ topThree }: LeaderboardPodiumProps) 
           </h3>
           <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1">3rd Place</span>
           <span className="text-purple-600 dark:text-purple-400 font-bold text-xs sm:text-sm mt-1">
-            {third.score} pts
+            {third.score}
+            {' '}
+            pts
           </span>
         </div>
       )}

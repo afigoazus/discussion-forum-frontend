@@ -30,7 +30,11 @@ export function toggleUpvoteCommentActionCreator({
   threadId,
   commentId,
   userId,
-}: ToggleVoteCommentProps & { userId: string }): ActionWithPayload<{ threadId: string; commentId: string; userId: string }> {
+}: ToggleVoteCommentProps & { userId: string }): ActionWithPayload<{
+  threadId: string;
+  commentId: string;
+  userId: string;
+}> {
   return {
     type: REDUX_ACTION_TYPE.TOGGLE_UPVOTE_COMMENT,
     payload: {
@@ -45,7 +49,11 @@ export function toggleDownvoteCommentActionCreator({
   threadId,
   commentId,
   userId,
-}: ToggleVoteCommentProps & { userId: string }): ActionWithPayload<{ threadId: string; commentId: string; userId: string }> {
+}: ToggleVoteCommentProps & { userId: string }): ActionWithPayload<{
+  threadId: string;
+  commentId: string;
+  userId: string;
+}> {
   return {
     type: REDUX_ACTION_TYPE.TOGGLE_DOWNVOTE_COMMENT,
     payload: {

@@ -10,10 +10,12 @@ function RegisterPage() {
   const dispatch = useAppDispatch();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onRegister = async ({ name, email, password }: RegisterUser) => {
     setError('');
     setSuccess('');
+    setIsLoading(true);
     try {
       await dispatch(asyncRegisterUser({ name, email, password }));
       setSuccess('Registrasi berhasil! Mengalihkan ke halaman login...');
@@ -23,6 +25,8 @@ function RegisterPage() {
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Registrasi gagal, coba gunakan email lain.';
       setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,7 +60,7 @@ function RegisterPage() {
           </div>
         )}
 
-        <RegisterInput register={onRegister} />
+        <RegisterInput register={onRegister} isLoading={isLoading} />
       </div>
     </div>
   );

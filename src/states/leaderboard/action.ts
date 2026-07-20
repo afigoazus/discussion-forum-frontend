@@ -1,4 +1,4 @@
-import { showLoading } from '@dimasmds/react-redux-loading-bar';
+import { showLoading, hideLoading } from '@dimasmds/react-redux-loading-bar';
 import type { AppDispatch } from '..';
 import type { ActionWithPayload } from '../../types/action.types';
 import apiService from '../../utils/api';
@@ -33,6 +33,8 @@ export function asyncReceiveLeaderboardActionCreator() {
         alert('Terjadi kesalahan yang tidak diketahui');
       }
       throw error;
+    } finally {
+      dispatch(hideLoading());
     }
   };
 }

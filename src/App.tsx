@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
@@ -39,7 +39,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<ThreadPage />} />
+      <Route path="/" element={<Navigate to="/threads" replace />} />
+      <Route path="/threads" element={<ThreadPage />} />
       <Route path="/threads/:id" element={<ThreadDetailPage />} />
       <Route path="/leaderboards" element={<LeaderboardPage />} />
     </Routes>

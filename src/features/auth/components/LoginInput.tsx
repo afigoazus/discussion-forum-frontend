@@ -3,9 +3,10 @@ import type { LoginUser } from '../../../types/user.types';
 
 interface LoginInputProps {
   login: (user: LoginUser) => void;
+  isLoading?: boolean;
 }
 
-export default function LoginInput({ login }: LoginInputProps) {
+export default function LoginInput({ login, isLoading = false }: LoginInputProps) {
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
 
@@ -24,13 +25,15 @@ export default function LoginInput({ login }: LoginInputProps) {
           >
             <span>Email</span>
             <input
+              id="email-address"
               name="email"
               type="email"
               autoComplete="email"
               required
+              disabled={isLoading}
               value={email}
               onChange={onEmailChange}
-              className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm disabled:opacity-50"
               placeholder="nama@email.com"
             />
           </label>
@@ -42,13 +45,15 @@ export default function LoginInput({ login }: LoginInputProps) {
           >
             <span>Password</span>
             <input
+              id="password"
               name="password"
               type="password"
               autoComplete="current-password"
               required
+              disabled={isLoading}
               value={password}
               onChange={onPasswordChange}
-              className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 shadow-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm disabled:opacity-50"
               placeholder="••••••••"
             />
           </label>
@@ -58,9 +63,20 @@ export default function LoginInput({ login }: LoginInputProps) {
       <div>
         <button
           type="submit"
+          disabled={isLoading}
           className="group relative flex w-full justify-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
         >
-          Login
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              Masuk...
+            </span>
+          ) : (
+            'Login'
+          )}
         </button>
       </div>
     </form>

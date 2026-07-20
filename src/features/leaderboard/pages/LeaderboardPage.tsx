@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Trophy, Flame } from 'lucide-react';
 import Loading from '../../../components/common/Loading';
-import type { Leaderboards } from '../../../types/leaderboard.types';
 import LeaderboardPodium from '../components/LeaderboardPodium';
 import LeaderboardList from '../components/LeaderboardList';
 import { useAppDispatch, useAppSelector } from '../../../states/hooks';
@@ -10,11 +9,14 @@ import { asyncReceiveLeaderboardActionCreator } from '../../../states/leaderboar
 
 export default function LeaderboardPage() {
   const { leaderboards = [] } = useAppSelector((state) => state);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(asyncReceiveLeaderboardActionCreator());
+    dispatch(asyncReceiveLeaderboardActionCreator()).finally(() => {
+      setIsLoading(false);
+    });
   }, [dispatch]);
 
   return (
@@ -24,7 +26,7 @@ export default function LeaderboardPage() {
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <Link
-              to="/"
+              to="/threads"
               className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-900 transition-colors"
               aria-label="Kembali ke Diskusi"
             >
@@ -44,7 +46,7 @@ export default function LeaderboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+      <main className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6">
         <div className="text-center mb-8">
           <div className="inline-flex p-3 rounded-2xl bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 mb-3">
             <Trophy className="w-10 h-10" />
@@ -58,11 +60,23 @@ export default function LeaderboardPage() {
           </p>
         </div>
 
-        {/* Podium Top 3 */}
-        <LeaderboardPodium topThree={leaderboards.slice(0, 3)} />
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <svg className="animate-spin h-10 w-10 text-purple-600 dark:text-purple-400 mb-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Memuat data klasemen...</p>
+          </div>
+        ) : (
+          <>
+            {/* Podium Top 3 */}
+            <LeaderboardPodium topThree={leaderboards.slice(0, 3)} />
 
-        {/* List Klasemen Sisa (Peringkat 4 ke bawah) */}
-        <LeaderboardList leaderboards={leaderboards} />
+            {/* List Klasemen Sisa (Peringkat 4 ke bawah) */}
+            <LeaderboardList leaderboards={leaderboards} />
+          </>
+        )}
       </main>
     </>
   );

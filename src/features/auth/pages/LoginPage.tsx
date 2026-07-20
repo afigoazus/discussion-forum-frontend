@@ -10,10 +10,12 @@ function LoginPage() {
   const dispatch = useAppDispatch();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const onLogin = async ({ email, password }: LoginUser) => {
     setError('');
     setSuccess('');
+    setIsLoading(true);
     try {
       await dispatch(asyncSetAuthUser({ email, password }));
       setSuccess('Login sukses! Mengalihkan...');
@@ -25,6 +27,8 @@ function LoginPage() {
         ? err.message
         : 'Login gagal, periksa kembali email dan password Anda.';
       setError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +62,7 @@ function LoginPage() {
           </div>
         )}
 
-        <LoginInput login={onLogin} />
+        <LoginInput login={onLogin} isLoading={isLoading} />
       </div>
     </div>
   );
