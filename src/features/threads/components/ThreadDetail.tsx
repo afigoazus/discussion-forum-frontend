@@ -1,4 +1,5 @@
 import { ThumbsDown, ThumbsUp, ArrowLeft } from 'lucide-react';
+import parse from 'html-react-parser';
 import { Link } from 'react-router-dom';
 import type { DetailThread } from '../../../types/thread.types';
 import { useAppSelector } from '../../../states/hooks';
@@ -33,7 +34,7 @@ export default function ThreadDetail({
     <article className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <div className="mb-6">
         <Link
-          to="/"
+          to="/threads"
           className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -54,7 +55,7 @@ export default function ThreadDetail({
           </div>
         )}
 
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-gray-900 dark:text-white text-base">
               {thread.owner?.name || 'Pengguna Tidak Dikenal'}
@@ -67,16 +68,17 @@ export default function ThreadDetail({
 
           <div className="mt-1">
             <span className="inline-block rounded-full bg-purple-50 px-2.5 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-              #{thread.category}
+              #
+              {thread.category}
             </span>
           </div>
 
-          <h2 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white break-words">
             {thread.title}
           </h2>
 
-          <div className="mt-4 text-gray-700 dark:text-gray-300 space-y-4 text-base leading-relaxed">
-            <p>{thread.body}</p>
+          <div className="mt-4 text-gray-700 dark:text-gray-300 space-y-4 text-base leading-relaxed break-words text-left">
+            {parse(thread.body)}
           </div>
 
           <div className="mt-6 flex items-center gap-6 border-t border-gray-100 pt-4 dark:border-gray-800">
@@ -91,7 +93,11 @@ export default function ThreadDetail({
                 className="w-5 h-5 text-gray-400 dark:text-gray-500"
                 fill={isUpvoted ? '#3b82f6' : 'none'}
               />
-              <span>Upvote ({upvotesCount})</span>
+              <span>
+                Upvote (
+                {upvotesCount}
+                )
+              </span>
             </button>
 
             <button
@@ -105,7 +111,11 @@ export default function ThreadDetail({
                 className="w-5 h-5 text-gray-400 dark:text-gray-500"
                 fill={isDownvoted ? '#ef4444' : 'none'}
               />
-              <span>Downvote ({downvotesCount})</span>
+              <span>
+                Downvote (
+                {downvotesCount}
+                )
+              </span>
             </button>
           </div>
         </div>

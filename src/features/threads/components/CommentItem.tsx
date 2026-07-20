@@ -1,4 +1,5 @@
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
+import parse from 'html-react-parser';
 import type { Comment } from '../../../types/thread.types';
 import { useAppSelector } from '../../../states/hooks';
 
@@ -44,7 +45,7 @@ export default function CommentItem({
         </div>
       )}
 
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-gray-900 dark:text-white text-sm">
             {comment.owner?.name || 'Pengguna Tidak Dikenal'}
@@ -55,9 +56,9 @@ export default function CommentItem({
           </time>
         </div>
 
-        <div className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+        <div className="mt-2 text-sm text-gray-700 dark:text-gray-300 break-words">
           {/* Support HTML content if needed (e.g. via html-react-parser) or plain text */}
-          <p>{comment.content}</p>
+          {parse(comment.content)}
         </div>
 
         <div className="mt-3 flex items-center gap-4">

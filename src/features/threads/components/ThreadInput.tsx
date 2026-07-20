@@ -33,9 +33,13 @@ export default function ThreadInput({ addThread }: ThreadInputProps) {
       <h3 className="text-lg font-bold text-gray-900 dark:text-white">Buat Diskusi Baru</h3>
 
       <div>
-        <label className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-          <span>Judul</span>
+        <label
+          htmlFor="title-input"
+          className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Judul
           <input
+            id="title-input"
             type="text"
             required
             value={title}
@@ -47,9 +51,13 @@ export default function ThreadInput({ addThread }: ThreadInputProps) {
       </div>
 
       <div>
-        <label className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-          <span>Kategori</span>
+        <label
+          htmlFor="category-input"
+          className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Kategori
           <input
+            id="category-input"
             type="text"
             value={category}
             onChange={onCategoryChange}
@@ -60,9 +68,13 @@ export default function ThreadInput({ addThread }: ThreadInputProps) {
       </div>
 
       <div>
-        <label className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300">
-          <span>Isi Diskusi</span>
+        <label
+          htmlFor="body-input"
+          className="block text-left text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Isi Diskusi
           <textarea
+            id="body-input"
             required
             rows={4}
             value={body}

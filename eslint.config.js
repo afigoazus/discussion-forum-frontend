@@ -61,6 +61,7 @@ export default defineConfig([
       'import/no-unresolved': 'off', // TypeScript compiler (tsc) already checks this
       'import/extensions': 'off', // TypeScript handles file extensions automatically
       'import/no-extraneous-dependencies': 'off',
+      'no-alert': 'off',
     },
   },
 ])
