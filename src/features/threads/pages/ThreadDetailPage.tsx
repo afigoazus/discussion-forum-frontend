@@ -11,7 +11,11 @@ import {
   asyncToggleDownvoteThread,
   asyncToggleUpvoteThread,
 } from '../../../states/threads/action';
-import { asyncAddComment } from '../../../states/comment/action';
+import {
+  asyncAddComment,
+  asyncDownvoteComment,
+  asyncUpvoteComment,
+} from '../../../states/comment/action';
 
 export default function ThreadDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -45,16 +49,12 @@ export default function ThreadDetailPage() {
     dispatch(asyncReceiveDetailThread(id || ''));
   };
 
-  const onUpvoteComment = (commentId: string) => {
-    // TODO: Dispatch action untuk upvote komentar
-    // Contoh: dispatch(asyncToggleUpvoteComment(commentId));
-    console.log(`Upvote comment: ${commentId}`);
+  const onUpvoteComment = (threadId: string, commentId: string) => {
+    dispatch(asyncUpvoteComment({ threadId, commentId }));
   };
 
-  const onDownvoteComment = (commentId: string) => {
-    // TODO: Dispatch action untuk downvote komentar
-    // Contoh: dispatch(asyncToggleDownvoteComment(commentId));
-    console.log(`Downvote comment: ${commentId}`);
+  const onDownvoteComment = (threadId: string, commentId: string) => {
+    dispatch(asyncDownvoteComment({ threadId, commentId }));
   };
 
   if (!authUser) {
@@ -127,6 +127,7 @@ export default function ThreadDetailPage() {
               Komentar ({threadDetail.comments.length})
             </h3>
             <CommentList
+              threadId={threadDetail.id}
               comments={threadDetail.comments}
               onUpvoteComment={onUpvoteComment}
               onDownvoteComment={onDownvoteComment}

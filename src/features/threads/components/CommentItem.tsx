@@ -3,12 +3,14 @@ import type { Comment } from '../../../types/thread.types';
 import { useAppSelector } from '../../../states/hooks';
 
 interface CommentItemProps {
+  threadId: string;
   comment: Comment;
-  onUpvoteComment: (commentId: string) => void;
-  onDownvoteComment: (commentId: string) => void;
+  onUpvoteComment: (threadId: string, commentId: string) => void;
+  onDownvoteComment: (threadId: string, commentId: string) => void;
 }
 
 export default function CommentItem({
+  threadId,
   comment,
   onUpvoteComment,
   onDownvoteComment,
@@ -61,7 +63,7 @@ export default function CommentItem({
         <div className="mt-3 flex items-center gap-4">
           <button
             type="button"
-            onClick={() => onUpvoteComment(comment.id)}
+            onClick={() => onUpvoteComment(threadId, comment.id)}
             className={`flex items-center gap-1 text-xs transition-colors hover:text-blue-500 focus:outline-none ${
               isUpvoted ? 'text-blue-600 font-semibold' : 'text-gray-500 dark:text-gray-400'
             }`}
@@ -75,7 +77,7 @@ export default function CommentItem({
 
           <button
             type="button"
-            onClick={() => onDownvoteComment(comment.id)}
+            onClick={() => onDownvoteComment(threadId, comment.id)}
             className={`flex items-center gap-1 text-xs transition-colors hover:text-red-500 focus:outline-none ${
               isDownvoted ? 'text-red-600 font-semibold' : 'text-gray-500 dark:text-gray-400'
             }`}

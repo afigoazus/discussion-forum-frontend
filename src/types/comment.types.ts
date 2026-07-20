@@ -4,6 +4,11 @@ export interface CreateCommentProps {
 }
 
 export interface AsyncAddCommentProps {
-    threadId: string
+  threadId: string;
   text: string;
+}
+
+export interface ToggleVoteCommentProps {
+  threadId: string;
+  commentId: string;
 }
