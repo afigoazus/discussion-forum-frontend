@@ -4,6 +4,7 @@ import './App.css';
 import LoginPage from './features/auth/pages/LoginPage';
 import RegisterPage from './features/auth/pages/RegisterPage';
 import ThreadPage from './features/threads/pages/ThreadPage';
+import ThreadDetailPage from './features/threads/pages/ThreadDetailPage';
 import { useAppDispatch, useAppSelector } from './states/hooks';
 import { asyncPreloadProcess } from './states/isPreload/action';
 import Loading from './components/common/Loading';
@@ -38,6 +39,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ThreadPage />} />
+      <Route path="/threads/:id" element={<ThreadDetailPage />} />
     </Routes>
   );
 }

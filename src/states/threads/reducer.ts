@@ -1,8 +1,8 @@
 import type { ActionWithPayload } from '../../types/action.types';
-import type { Thread } from '../../types/thread.types';
+import type { DetailThread, Thread } from '../../types/thread.types';
 import REDUX_ACTION_TYPE from '../actionTypes';
 
-export default function threadReducer(
+export function threadReducer(
   threads: Thread[] = [],
   action: ActionWithPayload<{
     threads?: Thread[];
@@ -72,5 +72,49 @@ export default function threadReducer(
     }
     default:
       return threads;
+  }
+}
+
+export function threadDetailReducer(
+  threadDetail: DetailThread | null = null,
+  action: ActionWithPayload<{
+    threadDetail?: DetailThread | null;
+    threadId?: string;
+    userId?: string;
+  }> = { type: '' },
+) {
+  switch (action.type) {
+    case REDUX_ACTION_TYPE.RECEIVE_THREADS_DETAIL:
+      return action.payload?.threadDetail ?? null;
+    case REDUX_ACTION_TYPE.TOGGLE_UPVOTE_THREAD: {
+      const { threadId, userId } = action.payload || {};
+      if (!threadDetail || threadDetail.id !== threadId || !userId) {
+        return threadDetail;
+      }
+      const isAlreadyUpvoted = threadDetail.upVotesBy.includes(userId);
+      return {
+        ...threadDetail,
+        upVotesBy: isAlreadyUpvoted
+          ? threadDetail.upVotesBy.filter((id) => id !== userId)
+          : [...threadDetail.upVotesBy, userId],
+        downVotesBy: threadDetail.downVotesBy.filter((id) => id !== userId),
+      };
+    }
+    case REDUX_ACTION_TYPE.TOGGLE_DOWNVOTE_THREAD: {
+      const { threadId, userId } = action.payload || {};
+      if (!threadDetail || threadDetail.id !== threadId || !userId) {
+        return threadDetail;
+      }
+      const isAlreadyDownvoted = threadDetail.downVotesBy.includes(userId);
+      return {
+        ...threadDetail,
+        downVotesBy: isAlreadyDownvoted
+          ? threadDetail.downVotesBy.filter((id) => id !== userId)
+          : [...threadDetail.downVotesBy, userId],
+        upVotesBy: threadDetail.upVotesBy.filter((id) => id !== userId),
+      };
+    }
+    default:
+      return threadDetail;
   }
 }
