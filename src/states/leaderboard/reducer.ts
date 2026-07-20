@@ -5,12 +5,12 @@ import REDUX_ACTION_TYPE from '../actionTypes';
 export default function leaderboardsReducer(
   leaderboards: Leaderboards[] = [],
   action: ActionWithPayload<{
-    leaderbords: Leaderboards[];
+    leaderboards: Leaderboards[];
   }> = { type: '' },
 ) {
   switch (action.type) {
     case REDUX_ACTION_TYPE.RECEIVE_LEADERBORD:
-      return action.payload?.leaderbords;
+      return action.payload?.leaderboards ?? leaderboards;
     default:
       return leaderboards;
   }
