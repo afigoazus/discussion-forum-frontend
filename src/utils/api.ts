@@ -313,13 +313,7 @@ const api = () => {
   }
 
   async function getLeaderboards(): Promise<Leaderboards[]> {
-    const response = await fetchWithAuth(`${BASE_URL}/leaderbords`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
+    const response = await fetch(`${BASE_URL}/leaderboards`);
     const responseJson = await response.json();
 
     const { status, message } = responseJson;
@@ -329,10 +323,10 @@ const api = () => {
     }
 
     const {
-      data: { leaderbords },
+      data: { leaderboards },
     } = responseJson;
 
-    return leaderbords;
+    return leaderboards;
   }
 
   return {

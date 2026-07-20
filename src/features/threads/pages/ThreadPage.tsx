@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../states/hooks';
 import { asyncUnsetAuthUser } from '../../../states/authUser/action';
 import asyncPopulateUsersAndThreads from '../../../states/shared/action';
@@ -100,6 +101,21 @@ export default function ThreadPage() {
           </div>
 
           <div className="space-y-6">
+            <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                🏆 Leaderboard
+              </h3>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                Lihat siapa kontributor teraktif saat ini di forum diskusi kami.
+              </p>
+              <Link
+                to="/leaderboards"
+                className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-purple-600 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-700 transition-colors"
+              >
+                Lihat Klasemen
+              </Link>
+            </div>
+
             <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <h3 className="font-bold text-gray-900 dark:text-white">Tentang Forum</h3>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
