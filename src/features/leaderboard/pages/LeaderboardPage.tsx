@@ -8,55 +8,6 @@ import LeaderboardList from '../components/LeaderboardList';
 import { useAppDispatch, useAppSelector } from '../../../states/hooks';
 import { asyncReceiveLeaderboardActionCreator } from '../../../states/leaderboard/action';
 
-// Mock data leaderboard untuk UI mentah agar user bisa belajar mengimplementasikan Redux sendiri
-const MOCK_LEADERBOARDS: Leaderboards[] = [
-  {
-    user: {
-      id: 'user-1',
-      name: 'Dimas Saputra',
-      email: 'dimas@dicoding.com',
-      avatar: 'https://ui-avatars.com/api/?name=Dimas+Saputra&background=8B5CF6&color=fff',
-    },
-    score: 1250,
-  },
-  {
-    user: {
-      id: 'user-2',
-      name: 'Arif Ikhsan',
-      email: 'arif@dicoding.com',
-      avatar: 'https://ui-avatars.com/api/?name=Arif+Ikhsan&background=EC4899&color=fff',
-    },
-    score: 980,
-  },
-  {
-    user: {
-      id: 'user-3',
-      name: 'Budi Raharjo',
-      email: 'budi@dicoding.com',
-      avatar: 'https://ui-avatars.com/api/?name=Budi+Raharjo&background=3B82F6&color=fff',
-    },
-    score: 850,
-  },
-  {
-    user: {
-      id: 'user-4',
-      name: 'Citra Amelia',
-      email: 'citra@dicoding.com',
-      avatar: 'https://ui-avatars.com/api/?name=Citra+Amelia&background=10B981&color=fff',
-    },
-    score: 720,
-  },
-  {
-    user: {
-      id: 'user-5',
-      name: 'Dedi Kurniawan',
-      email: 'dedi@dicoding.com',
-      avatar: 'https://ui-avatars.com/api/?name=Dedi+Kurniawan&background=F59E0B&color=fff',
-    },
-    score: 640,
-  },
-];
-
 export default function LeaderboardPage() {
   const { leaderboards = [] } = useAppSelector((state) => state);
 
