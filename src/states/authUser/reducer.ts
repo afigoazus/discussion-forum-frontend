@@ -4,7 +4,7 @@ import REDUX_ACTION_TYPE from '../actionTypes';
 
 export default function authUserReducer(
   authUser: User | null = null,
-  action: ActionWithPayload<{ authUser: User }> = { type: '' },
+  action: ActionWithPayload<{ authUser: User | null }> = { type: '' },
 ) {
   switch (action.type) {
     case REDUX_ACTION_TYPE.SET_AUTH_USER:
