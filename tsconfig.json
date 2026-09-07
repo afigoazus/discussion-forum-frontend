@@ -5,6 +5,6 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["vites/globals", "@testing-library/jest-dom"]
+    "types": ["vites/globals", "@testing-library/jest-dom", "cypress"]
   }
 }
