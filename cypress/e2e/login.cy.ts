@@ -11,7 +11,7 @@
 
 describe('Login spec', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:5173');
+    cy.visit('/');
   });
 
   it('should display login page correctly', () => {
@@ -37,15 +37,16 @@ describe('Login spec', () => {
   });
 
   it('should display alert when usename and password are wrong', () => {
+    const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
+
     cy.get('[data-testid="email-input"]').type('email@example.com');
 
     cy.get('[data-testid="password-input"]').type('passwordtest');
 
     cy.get('[data-testid="login-button"]').click();
 
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal('email or password is wrong');
-    });
+    cy.wrap(alertStub).should('have.been.calledWith', 'email or password is wrong');
   });
 
   it('should display homepage when email and password are correct', () => {
@@ -55,8 +56,8 @@ describe('Login spec', () => {
 
     cy.get('[data-testid="login-button"]').click();
 
-    cy.url().should('include', '/threads');
+    cy.url({ timeout: 10000 }).should('include', '/threads');
 
-    cy.get('[data-testid="homepage-title"]').should('be.visible');
+    cy.get('[data-testid="homepage-title"]', { timeout: 10000 }).should('be.visible');
   });
 });
