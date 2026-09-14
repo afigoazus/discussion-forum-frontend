@@ -122,9 +122,6 @@ describe('asyncSetAuthUser thunk', () => {
 });
 
 describe('asyncUnsetAuthUser thunk', () => {
-  const fakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRpbWFzMiIsIm5hbWUiOiJEaW1hcyBTYXB1dHJhIiwicGhvdG8iOiJodHRwczovL3VpLWF2YXRhcnMuY29tL2FwaS8_bmFtZT1EaW1hcyBTYXB1dHJhJmJhY2tncm91bmQ9cmFuZG9tIiwiaXNfcGVybWFuZW50IjpmYWxzZSwiaWF0IjoxNjYzODQwNzY0fQ._HrzpinFYX_m9WfvM-lGCdVrnhnaGHhzt1e6eATE1Iw';
-
   beforeEach(() => {
     // TODO: Setup mock untuk API (putAccessToken)
     mockApi.putAccessToken.mockReset();
