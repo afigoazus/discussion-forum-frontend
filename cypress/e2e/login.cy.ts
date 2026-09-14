@@ -7,6 +7,7 @@
  *   - should not password when email is empty
  *   - should display alert when email and password are wrong
  *   - should display homepage when email and password are correct
+ *   - should intentionally fail for CI failure check requirement
  */
 
 describe('Login spec', () => {
@@ -141,5 +142,9 @@ describe('Login spec', () => {
     cy.url({ timeout: 10000 }).should('include', '/threads');
 
     cy.get('[data-testid="homepage-title"]', { timeout: 10000 }).should('be.visible');
+  });
+
+  it('should intentionally fail for CI failure check requirement', () => {
+    cy.get('[data-testid="non-existent-element"]', { timeout: 2000 }).should('be.visible');
   });
 });
