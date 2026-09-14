@@ -3,7 +3,7 @@ import type { CreateThread, DetailThread, Thread } from '../types/thread.types';
 import type { LoginUser, RegisterUser, User } from '../types/user.types';
 
 const api = () => {
-  const BASE_URL = import.meta.env.VITE_PUBLIC_API;
+  const BASE_URL = import.meta.env.VITE_PUBLIC_API || 'https://forum-api.dicoding.dev/v1';
 
   function getAccessToken() {
     return localStorage.getItem('accessToken');

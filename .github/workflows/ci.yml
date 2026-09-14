@@ -20,6 +20,8 @@ jobs:
           node-version: '22'
 
       - name: npm install and test
+        env:
+          VITE_PUBLIC_API: https://forum-api.dicoding.dev/v1
         run: |
           npm install
           npm run ci:test
