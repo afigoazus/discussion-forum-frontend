@@ -21,7 +21,16 @@ const compat = new FlatCompat({
 
 export default defineConfig([
   // Ignore directories and configuration files we don't want to lint with Airbnb rules
-  globalIgnores(['dist', 'node_modules', 'eslint.config.js', 'vite.config.ts']),
+  globalIgnores([
+    'dist',
+    'node_modules',
+    'storybook-static',
+    '.storybook',
+    'eslint.config.js',
+    'vite.config.ts',
+    'vitest.config.ts',
+    'cypress.config.ts',
+  ]),
   ...compat.extends('eslint-config-airbnb'),
   {
     settings: {
@@ -36,7 +45,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,

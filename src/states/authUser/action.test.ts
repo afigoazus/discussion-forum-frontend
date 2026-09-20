@@ -9,7 +9,10 @@
  *   - should dispatch actions correctly when logout is successful
  */
 
-import { describe, it, vi, beforeEach, afterEach, expect } from 'vitest';
+import {
+  describe, it, vi, beforeEach, afterEach, expect,
+} from 'vitest';
+import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
 import {
   asyncSetAuthUser,
   asyncUnsetAuthUser,
@@ -17,7 +20,6 @@ import {
   unsetAuthUserActionCreator,
 } from './action';
 import type { User } from '../../types/user.types';
-import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
 
 const { mockApi } = vi.hoisted(() => ({
   mockApi: {
@@ -52,8 +54,7 @@ describe('asyncSetAuthUser thunk', () => {
     password: 'test',
   };
 
-  const fakeToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRpbWFzMiIsIm5hbWUiOiJEaW1hcyBTYXB1dHJhIiwicGhvdG8iOiJodHRwczovL3VpLWF2YXRhcnMuY29tL2FwaS8_bmFtZT1EaW1hcyBTYXB1dHJhJmJhY2tncm91bmQ9cmFuZG9tIiwiaXNfcGVybWFuZW50IjpmYWxzZSwiaWF0IjoxNjYzODQwNzY0fQ._HrzpinFYX_m9WfvM-lGCdVrnhnaGHhzt1e6eATE1Iw';
+  const fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRpbWFzMiIsIm5hbWUiOiJEaW1hcyBTYXB1dHJhIiwicGhvdG8iOiJodHRwczovL3VpLWF2YXRhcnMuY29tL2FwaS8_bmFtZT1EaW1hcyBTYXB1dHJhJmJhY2tncm91bmQ9cmFuZG9tIiwiaXNfcGVybWFuZW50IjpmYWxzZSwiaWF0IjoxNjYzODQwNzY0fQ._HrzpinFYX_m9WfvM-lGCdVrnhnaGHhzt1e6eATE1Iw';
 
   const fakeUserProfileResponse: User = {
     id: 'user-1',
@@ -95,12 +96,14 @@ describe('asyncSetAuthUser thunk', () => {
   it('should dispatch actions, call alert, and throw error when login fails', async () => {
     // Skenario Pengujian:
     // 1. Lakukan mock pada API login agar mengembalikan Promise reject (error).
-    // 2. Panggil thunk asyncSetAuthUser dan tangkap error-nya menggunakan block try-catch atau assertions helper.
+    // 2. Panggil thunk asyncSetAuthUser dan tangkap error-nya menggunakan
+    //    block try-catch atau assertions helper.
     // 3. Verifikasi bahwa:
     //    - dispatch(showLoading()) dipanggil di awal.
     //    - alert dipanggil dengan pesan error yang sesuai.
     //    - Thunk melemparkan kembali error tersebut (re-throw).
-    //    - dispatch(hideLoading()) tidak dipanggil (karena eksekusi terhenti akibat throw error sebelum mencapai akhir).
+    //    - dispatch(hideLoading()) tidak dipanggil (karena eksekusi terhenti
+    //      akibat throw error sebelum mencapai akhir).
 
     mockApi.login.mockRejectedValue(fakeErrorResponse);
     mockApi.getOwnProfile.mockRejectedValue(fakeErrorResponse);

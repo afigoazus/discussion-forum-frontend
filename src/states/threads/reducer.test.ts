@@ -5,9 +5,12 @@
  *  - should return the initial state when given by unknown action
  *  - should return the threads when given by RECEIVE_THREADS action
  *  - should return the threads with the new thread when given by ADD_THREAD action
- *  - should return the threads with the toggled upvote thread when given by TOGGLE_UPVOTE_THREAD action
- *  - should return the threads with the toggled downvote thread when given by TOGGLE_DOWNVOTE_THREAD action
- *  - should return the threads with neutralized vote thread when given by TOGGLE_NEUTRALVOTE_THREAD action
+ *  - should return the threads with the toggled upvote thread when
+ *    given by TOGGLE_UPVOTE_THREAD action
+ *  - should return the threads with the toggled downvote thread when
+ *    given by TOGGLE_DOWNVOTE_THREAD action
+ *  - should return the threads with neutralized vote thread when
+ *    given by TOGGLE_NEUTRALVOTE_THREAD action
  *
  */
 

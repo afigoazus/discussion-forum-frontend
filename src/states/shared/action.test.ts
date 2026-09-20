@@ -6,7 +6,9 @@
  *  - should dispatch action and call alert correctly when data fetching failed
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import {
+  describe, it, expect, vi, beforeEach, afterEach,
+} from 'vitest';
 import { hideLoading, showLoading } from '@dimasmds/react-redux-loading-bar';
 import asyncPopulateUsersAndThreads from './action';
 import { receiveUsersActionCreator } from '../user/action';

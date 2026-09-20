@@ -53,8 +53,8 @@ export default function ThreadPage() {
     setFilterCategory((prev) => (prev === category ? '' : category));
   };
 
-  const filteredThreads = threads.filter((thread) =>
-    thread.category.toLowerCase().includes(filterCategory.toLowerCase()),
+  const filteredThreads = threads.filter(
+    (thread) => thread.category.toLowerCase().includes(filterCategory.toLowerCase()),
   );
 
   return (
@@ -165,7 +165,8 @@ export default function ThreadPage() {
                         : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
                     }`}
                   >
-                    #{thread.category}
+                    #
+                    {thread.category}
                   </button>
                 ))}
               </div>

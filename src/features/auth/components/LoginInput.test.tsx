@@ -7,7 +7,9 @@
  *   - should call login function when login button is clicked
  */
 
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  afterEach, describe, expect, it, vi,
+} from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LoginInput from './LoginInput';
